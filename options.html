@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>答题助手 - 设置</title>
+  <style>
+    :root {
+      --bg: #f5f6f7; --fg: #1f2329; --muted: #646a73;
+      --brand: #2f6fed; --brand-hover: #1f5fd6; --border: #e5e6eb;
+      --card: #fff;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: -apple-system, "Segoe UI", "Microsoft YaHei", sans-serif;
+      background: var(--bg); color: var(--fg); font-size: 14px; }
+    .wrap { max-width: 640px; margin: 0 auto; padding: 32px 20px; }
+    h1 { font-size: 20px; margin-bottom: 4px; }
+    .sub { color: var(--muted); font-size: 13px; margin-bottom: 24px; }
+    .card { background: var(--card); border: 1px solid var(--border); border-radius: 12px;
+      padding: 24px; margin-bottom: 16px; }
+    .card h2 { font-size: 15px; margin-bottom: 16px; }
+    .field { margin-bottom: 16px; }
+    .field label { display: block; font-size: 13px; color: var(--muted); margin-bottom: 6px; }
+    .field input, .field select { width: 100%; padding: 10px 12px; border: 1px solid var(--border);
+      border-radius: 8px; font-size: 14px; outline: none; background: #fff; }
+    .field input:focus, .field select:focus { border-color: var(--brand); }
+    .field .desc { font-size: 12px; color: var(--muted); margin-top: 6px; line-height: 1.5; }
+    .field input.custom { display: none; margin-top: 8px; }
+    .btn { padding: 11px 20px; border: none; border-radius: 8px; font-size: 14px;
+      font-weight: 600; cursor: pointer; background: var(--brand); color: #fff; }
+    .btn:hover { background: var(--brand-hover); }
+    .btn.test { background: #fff; color: var(--brand); border: 1px solid var(--brand); margin-left: 8px; }
+    .btn.danger { background: #fff; color: #c0353f; border: 1px solid #c0353f; margin-left: 8px; }
+    .btn.danger:hover { background: #fdecec; }
+    .msg { padding: 10px 12px; border-radius: 8px; margin-top: 16px; font-size: 13px; display: none; }
+    .msg.ok { background: #e8f7ef; color: #18794e; display: block; }
+    .msg.bad { background: #fdecec; color: #c0353f; display: block; }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <h1>学习通答题助手 · 设置中心</h1>
+    <div class="sub">在此配置你的模型 API（OpenAI 兼容接口）。所有信息仅保存在本机浏览器，不会上传到任何第三方服务器。</div>
+
+    <div class="card">
+      <h2>模型 API 配置</h2>
+      <div class="field">
+        <label>API 地址（base_url）</label>
+        <input id="baseUrl" placeholder="https://api.deepseek.com/v1" />
+        <div class="desc">兼容 OpenAI 的接口均可，例如 DeepSeek / 通义 / Kimi / Ollama(localhost:11434/v1)</div>
+      </div>
+      <div class="field">
+        <label>API Key</label>
+        <input id="apiKey" type="password" placeholder="sk-..." />
+      </div>
+      <div class="field">
+        <label>模型名称</label>
+        <div style="display:flex;gap:8px;">
+          <select id="modelSelect" style="flex:1;">
+            <option value="deepseek-chat">deepseek-chat</option>
+            <option value="deepseek-reasoner">deepseek-reasoner</option>
+            <option value="gpt-4o-mini">gpt-4o-mini</option>
+            <option value="qwen-plus">qwen-plus</option>
+            <option value="moonshot-v1-8k">moonshot-v1-8k</option>
+            <option value="__custom__">自定义其他模型…</option>
+          </select>
+          <button class="btn" id="btnFetchModels" type="button" style="padding:10px 14px;white-space:nowrap;">获取模型列表</button>
+        </div>
+        <input id="model" class="custom" placeholder="输入模型名称，如 gpt-4o-mini" />
+        <div class="desc" id="modelDesc">不确定模型名就点「获取模型列表」，会从你的 API 拉取真实可用模型</div>
+      </div>
+      <div class="field">
+        <label>自定义提示词（可选，留空用默认）</label>
+        <input id="prompt" placeholder="你是答题助手…" />
+      </div>
+      <div class="field" style="display:flex;align-items:flex-start;gap:10px;background:#fdf0f0;border:1px solid #f3c4c4;border-radius:8px;padding:12px;">
+        <input id="autoSubmit" type="checkbox" style="width:auto;margin-top:3px;flex-shrink:0;" />
+        <div>
+          <label style="margin-bottom:2px;color:#c0353f;">自动提交（危险，默认关闭）</label>
+          <div class="desc" style="color:#c0353f;">开启后，点「填入」答案时会自动点击页面上的「提交」按钮。学习通提交后通常不可撤回，模型答案可能有误，强烈建议保持关闭、手动核对后再提交。</div>
+        </div>
+      </div>
+      <button class="btn" id="btnSave">保存</button>
+      <button class="btn test" id="btnTest">测试连接</button>
+      <button class="btn danger" id="btnClear">清除已保存配置</button>
+      <div class="msg" id="msg"></div>
+    </div>
+
+    <div class="card" style="text-align:center;">
+      <div style="font-size:13px;color:#646a73;margin-bottom:12px;">如果这个插件帮到了你，可以请作者喝杯咖啡 ☕</div>
+      <button class="btn" id="btnDonate" style="background:#ff9500;">💰 支持开发者</button>
+    </div>
+  </div>
+
+  <!-- 捐款弹窗 -->
+  <div id="donateMask" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.45);z-index:9999;align-items:center;justify-content:center;">
+    <div style="background:#fff;border-radius:14px;padding:28px;max-width:640px;width:92%;text-align:center;position:relative;">
+      <span id="donateClose" style="position:absolute;right:16px;top:12px;font-size:24px;color:#999;cursor:pointer;">×</span>
+      <h3 style="font-size:16px;margin-bottom:6px;">感谢支持 ❤️</h3>
+      <div style="font-size:12px;color:#646a73;margin-bottom:18px;">扫码捐款，金额随意</div>
+      <div style="display:flex;gap:20px;justify-content:center;flex-wrap:wrap;">
+        <div>
+          <img src="icons/donate_zfb.png" alt="支付宝收款码" style="width:220px;border-radius:8px;border:1px solid #eee;" />
+          <div style="font-size:13px;color:#1677ff;margin-top:6px;font-weight:600;">支付宝</div>
+        </div>
+        <div>
+          <img src="icons/donate_wx.png" alt="微信收款码" style="width:220px;border-radius:8px;border:1px solid #eee;" />
+          <div style="font-size:13px;color:#07c160;margin-top:6px;font-weight:600;">微信</div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <script src="options.js"></script>
+</body>
+</html>

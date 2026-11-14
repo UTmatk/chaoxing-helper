@@ -1,0 +1,19 @@
+# 本地/系统文件
+node_modules/
+.DS_Store
+Thumbs.db
+*.log
+*.tmp
+
+# 打包产物
+*.zip
+*.crx
+*.pem
+
+# 编辑器
+.vscode/
+.idea/
+*.swp
+
+# 本地临时工具链（gh 便携版等，不入库）
+.tools/

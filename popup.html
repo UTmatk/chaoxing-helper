@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>学习通答题助手</title>
+  <style>
+    :root {
+      --bg: #ffffff;
+      --fg: #1f2329;
+      --muted: #646a73;
+      --brand: #2f6fed;
+      --brand-hover: #1f5fd6;
+      --border: #e5e6eb;
+      --danger: #e5484d;
+      --ok: #30a46c;
+      --card: #f7f8fa;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      width: 340px;
+      font-family: -apple-system, "Segoe UI", "Microsoft YaHei", sans-serif;
+      color: var(--fg);
+      background: var(--bg);
+      font-size: 13px;
+    }
+    .head {
+      padding: 14px 16px;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .logo {
+      width: 28px; height: 28px; border-radius: 7px;
+      background: linear-gradient(135deg, #2f6fed, #5b8bf5);
+      color: #fff; display: flex; align-items: center; justify-content: center;
+      font-weight: 700; font-size: 15px;
+    }
+    .head h1 { font-size: 15px; font-weight: 600; }
+    .head .sub { font-size: 11px; color: var(--muted); }
+    .body { padding: 14px 16px; }
+    .status {
+      display: flex; align-items: center; gap: 8px;
+      padding: 10px 12px; border-radius: 8px; background: var(--card);
+      margin-bottom: 14px; font-size: 12px;
+    }
+    .dot { width: 8px; height: 8px; border-radius: 50%; background: #c1c4cc; flex-shrink: 0; }
+    .dot.ok { background: var(--ok); }
+    .dot.bad { background: var(--danger); }
+    .btn {
+      display: block; width: 100%; padding: 11px; border: none; border-radius: 8px;
+      font-size: 14px; font-weight: 600; cursor: pointer; transition: .15s;
+      background: var(--brand); color: #fff;
+    }
+    .btn:hover { background: var(--brand-hover); }
+    .btn:disabled { background: #c1c4cc; cursor: not-allowed; }
+    .btn.ghost {
+      background: transparent; color: var(--brand); border: 1px solid var(--brand);
+      margin-top: 8px; font-size: 13px;
+    }
+    .btn.ghost:hover { background: #f0f4ff; }
+    .row { display: flex; gap: 8px; }
+    .row .btn { flex: 1; }
+    .hint { font-size: 11px; color: var(--muted); line-height: 1.5; margin-top: 12px; }
+  </style>
+</head>
+<body>
+  <div class="head">
+    <div class="logo">答</div>
+    <div>
+      <h1>学习通答题助手</h1>
+      <div class="sub">抓题 · 调用模型 · 确认后填充</div>
+    </div>
+  </div>
+
+  <div class="body">
+    <div class="status" id="status">
+      <span class="dot" id="dot"></span>
+      <span id="statusText">检测配置中…</span>
+    </div>
+
+    <button class="btn" id="btnFetch">抓取当前题目</button>
+    <div class="row">
+      <button class="btn ghost" id="btnOpenOptions" style="flex:1;">设置</button>
+    </div>
+
+    <div class="hint">
+      配置模型 API 请点「设置」。仅抓题并调用你填写的模型生成答案，需确认后写入页面，请遵守平台规则。
+    </div>
+  </div>
+
+  <script src="popup.js"></script>
+</body>
+</html>
