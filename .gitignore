@@ -9,6 +9,7 @@ Thumbs.db
 *.zip
 *.crx
 *.pem
+dist/
 
 # 编辑器
 .vscode/

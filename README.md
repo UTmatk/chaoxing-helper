@@ -21,6 +21,15 @@
 
 ## 二、安装
 
+### 方式 A：下载发行版（推荐，普通用户）
+
+1. 打开 [Releases](https://github.com/UTmatk/chaoxing-helper/releases) 下载最新 `chaoxing-helper-v1.1.0.zip`
+2. 解压到任意目录（解压后是一个 `chaoxing-helper` 文件夹，里面直接有 `manifest.json`）
+3. 打开 `edge://extensions`（Chrome 为 `chrome://extensions`）→ 打开 **开发人员模式**
+4. 点 **加载解压缩的扩展**，选中解压出来的 `chaoxing-helper` 文件夹
+
+### 方式 B：源码加载
+
 1. 打开 `edge://extensions`（Chrome 为 `chrome://extensions`）
 2. 打开右上角 **开发人员模式**
 3. 点 **加载解压缩的扩展**，选择本目录（含 `manifest.json` 的那一层）
